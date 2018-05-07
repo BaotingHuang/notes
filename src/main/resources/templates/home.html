@@ -1,0 +1,186 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Notes</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- Required meta tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body> 
+<div class="container">
+  	<!-- List Section -->
+    <div th:if="${showAdd} == null and ${showEdit} == null" align=center> 
+		<div class="row">
+	  		<div class="col-3">
+	  		
+	  			<br><br><br><br>
+	  			<h4>Notebooks</h4>
+	  			<!-- 
+				<ul class="list-group">
+					 <li class="list-group-item" th:each="notebook : ${notebooks}" th:text="${notebook.title}"></li> 
+				<<a th:each="notebook : ${notebooks}" href="/" th:text="${notebook.title}" + "o" th:href="@{/select(notebookId=${notebook.id})}"></a>
+						
+				-->
+				<table class="table">
+					<tr>
+					   <td><a href="/select?notebookId=0">All</a></td>
+					</tr>
+					<tr th:each="notebook : ${notebooks}">
+							
+	   					 <div th:if="${selectedNotebook} != null"> 
+							<div th:switch="${notebook.id}"> 
+								  <p th:case="${selectedNotebook?.id}">
+									 <td bgcolor=eeeeee><a th:href="@{/select(notebookId=${notebook.id})}" th:text="${notebook.title}"></a></td>
+								  </p>
+								  <p th:case="*">
+									 <td><a th:href="@{/select(notebookId=${notebook.id})}" th:text="${notebook.title}"></a></td>
+								  </p>
+							</div>
+						</div>
+						<div th:if="${selectedNotebook} == null"> 
+							<p><td><a th:href="@{/select(notebookId=${notebook.id})}" th:text="${notebook.title}"></a></td></p>
+						</div>
+					</tr>
+				</table>
+				        
+		
+				
+			</div>
+	  		<div class="col-9">
+			    <h1>Notes</h1>
+			
+			    <table class="table table-striped">
+					<thead class="thead-light">		    
+					<tr>
+						<td colspan=6 align=right>
+							<a href="./add" class="btn btn-primary" role="button">Add Note</a>
+						</td>
+					</tr>
+					</thead>
+					<thead class="thead-light">		    
+						<tr>
+							<!-- <th scope="col">Notebook</th> -->
+							<!-- <th scope="col">Id</th>  -->
+							<th scope="col">Category</th>
+							<th scope="col">Title</th>
+							<th scope="col">Content</th>
+							<th scope="col">Edit</th>
+						</tr>
+					</thead>
+				      <tr th:each="note : ${notes}">
+				        <!-- <td th:text="${note?.notebook?.title}">notebook</td>  -->
+				        <!-- <td th:text="${note.id}">Onions</td>  -->
+				        <td th:text="${note.category}">blah</td> 
+				        <td th:text="${note.title}">2.41</td> 
+				        <td width="50%" th:text="${note.content}">yes</td>
+				        <td><a href="/" th:href="@{/edit(noteId=${note.id})}">Edit</a></td>
+				      </tr>
+			    </table>
+			</div> <!-- col-10 -->
+		</div> <!-- row -->
+	</div>
+
+<!-- Add/Edit Section -->
+
+    <div th:if="${showAdd} == true or ${showEdit} == true" align=center> 
+	    <br><br><br><br>
+	     <div th:if="${showAdd} == true"> 
+	   		 <h1>Add Note</h1>
+	     </div>
+	     <div th:if="${showEdit} == true"> 
+	   		 <h1>Edit Note</h1>
+	     </div>
+	    
+		<form action="/"  th:object="${note}" method="post" id="add_form">
+		  <fieldset>
+		  <table>
+		  
+		  	<tr>
+		  		<td>Notebook: </td>
+		    	<td>
+				    <div th:if="${showAdd} == true"> 
+		    			
+		    			<select name="notebook" id="notebooks">
+						     <option th:each="notebook : ${notebooks}"
+						             th:value="${notebook.id}"
+						             th:text="${notebook.title}">
+						     </option>
+						</select>
+			    	</div>
+				    <div th:if="${showEdit} == true"> 
+		    			<select name="notebook" id="notebooks">
+						     <option th:each="notebook : ${notebooks}"
+						             th:value="${notebook.id}"
+						             th:selected="${notebook.id == editnote.notebook.id}"
+						             th:text="${notebook.title}">
+						     </option>
+						</select>
+			    	</div>
+		    	
+		    	</td>
+		    </tr>
+		  	<tr>
+		  		<td>Category: </td>
+		    	<td>
+				    <div th:if="${showAdd} == true"> 
+		    			<input type="text" name="category" size=50/>
+			    	</div>
+				    <div th:if="${showEdit} == true"> 
+		 			   	<input type="text" name="category" th:attr="value = ${editnote.category}"   size=50/>
+			    	</div>
+		    	
+		    	</td>
+		    </tr>
+		  	<tr>
+		  		<td>Title: </td>
+		    	<td>
+				    <div th:if="${showAdd} == true"> 
+		    			<input type="text" name="title" size=50/>
+			    	</div>
+				    <div th:if="${showEdit} == true"> 
+		 			   	<input type="text" name="title" th:attr="value = ${editnote.title}"   size=50/>
+			    	</div>
+		    	
+		    	</td>
+		    </tr>
+		    <tr>
+			    <td>Content: </td>
+			    <td>
+				    <div th:if="${showAdd} == true"> 
+				    	<textarea rows=8 cols=50 name="content" form="add_form"/></textarea>
+			    	</div>
+				    <div th:if="${showEdit} == true"> 
+				    	<textarea rows=8 cols=50 name="content"  th:field="${editnote.content}" form="add_form"/></textarea>
+			    	</div>
+			    </td>
+		    </tr>
+		    <tr>
+		    	<td colspan=2 align=center>
+				<div th:if="${showAdd} == true"> 
+		    		<input type="submit" name="action" value="Add"/>
+		    		<input type="submit" name="action" value="Cancel"/> 
+			     </div>
+			     <div th:if="${showEdit} == true"> 
+		    		<!-- <input type="hidden" name="noteId" th:value="${editNote.id}" /> -->
+		    		<input type="hidden" name="id" th:attr="value = ${editnote.id}"/>
+		    		<input type="submit" name="action" value="Save"/>
+		    		<input type="submit" name="action" value="Cancel"/> 
+			     </div>
+		    	</td>
+		    </tr>
+		  </table>
+		 
+		  </fieldset>
+		</form>
+	</div>
+</div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
