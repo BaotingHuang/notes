@@ -76,7 +76,7 @@ public class MainController {
 	    // we are returning the List page so we need to include the list in the model 
     	//model.addAttribute("notes", updateNotes());
         //model.addAttribute("notes", notesInSelectedNotebook());
-        model.addAttribute("notes", pageOfNotesInSelectedNotebook());
+        model.addAttribute("notes", pageOfNotesInSelectedNotebook(0));
         model.addAttribute("notebooks", notebooks());
         model.addAttribute("selectedNotebook", selectedNotebook);
 
@@ -88,7 +88,7 @@ public class MainController {
     	// User was adding a note and cancelled
         //model.addAttribute("notes", notes());
         //model.addAttribute("notes", notesInSelectedNotebook());
-        model.addAttribute("notes", pageOfNotesInSelectedNotebook());
+        model.addAttribute("notes", pageOfNotesInSelectedNotebook(0));
         model.addAttribute("notebooks", notebooks());
         model.addAttribute("selectedNotebook", selectedNotebook);
 
@@ -130,14 +130,15 @@ public class MainController {
 	   // we are returning the List page so we need to include the list in the model 
     	//model.addAttribute("notes", updateNotes());
         //model.addAttribute("notes", notesInSelectedNotebook());
-        model.addAttribute("notes", pageOfNotesInSelectedNotebook());
+        model.addAttribute("notes", pageOfNotesInSelectedNotebook(0));
         model.addAttribute("notebooks", notebooks());
         model.addAttribute("selectedNotebook", selectedNotebook);
 
         return "home";
     }
     @GetMapping({"/select"})
-    public String select(@RequestParam(name="notebookId", required=false) Long notebookId, Model model) {
+    public String select(@RequestParam(name="notebookId", required=false) Long notebookId, 
+    		Model model) {
         if(notebookId == 0) {
         	selectedNotebook = null;
         }
@@ -146,7 +147,7 @@ public class MainController {
                 .orElseThrow(() -> new ResourceNotFoundException("Notebook", "id", notebookId));
         }
         //model.addAttribute("notes", notesInSelectedNotebook());
-        model.addAttribute("notes", pageOfNotesInSelectedNotebook());
+        model.addAttribute("notes", pageOfNotesInSelectedNotebook(0));
         model.addAttribute("notebooks", notebooks());
         model.addAttribute("selectedNotebook", selectedNotebook);
 
