@@ -62,35 +62,31 @@
 			    <table class="table table-striped">
 					<thead class="thead-light">		    
 					<tr>
-						<td colspan=6>
+						<td colspan=3>
 							<!-- Pagination  -->
 							<div class="table-pagination">
 							    <ul class="pagination">
-							        <li class="page-item" th:class="${notes.getTotalPages() eq 0} ? 'disabled' : ''"> 
-										<a  class="page-link" th:if="${not notes.isFirst()}" th:href="@{${'/notes'}(page=${notes.getNumber()-1},size=${notes.size})}">Previous</a>
-								        <a  class="page-link" th:if="${notes.isFirst()}" href="javascript:void(0);">Previous</a>
+							    	<!-- <li  class="page-link" th:class="${notes.getTotalPages() eq 1} ? 'page-item disabled' : 'page-item'">  -->
+							        <li class="page-link" th:class="${notes.getNumber() eq 0} ? 'page-item disabled' : 'page-item'"> 
+										<a  class="page-link" th:if="${not notes.isFirst()}" th:href="@{${'/notes'}(page=${notes.getNumber()},size=${notes.getSize()})}">Previous</a>
+								        <a  class="page-link disabled" th:if="${notes.isFirst()}" href="javascript:void(0);">Previous</a>
 									</li>
-							        <li class="page-item" th:each="pageNo : ${#numbers.sequence(0, notes.getTotalPages() - 1)}" th:class="${notes.getNumber() eq pageNo}? 'active' : ''">
+							        <li th:each="pageNo : ${#numbers.sequence(0, notes.getTotalPages() - 1)}" th:class="${notes.getNumber() eq pageNo}? 'page-item active' : 'page-item'">
 							            <a class="page-link" th:if="${notes.getNumber()  eq pageNo}" href="javascript:void(0);">
 							                <span th:text="${pageNo + 1}"></span>
 							            </a>
-							            <a class="page-link"  th:if="${not (notes.getNumber()  eq pageNo)}" th:href="@{${'/notes'}(page=${pageNo},size=${notes.getSize()})}">
+							            <a class="page-link"  th:if="${not (notes.getNumber() eq pageNo)}" th:href="@{${'/notes'}(page=${pageNo+1},size=${notes.getSize()})}">
 							                <span th:text="${pageNo + 1}"></span>
 							            </a>
 							        </li>
-								   <li class="page-item" th:class="${notes.getNumber() + 1 ge notes.getTotalPages()} ? 'disabled' : ''">
-							            <a class="page-link" th:if="${not notes.isLast()}" th:href="@{${'/notes'}(page=${notes.getNumber()+1},size=${notes.getSize()})}">Next</a>
-							            <a class="page-link" th:if="${notes.isLast()}" href="javascript:void(0);">Next</a>
+								   <li class="page-item" th:class="${notes.getNumber() + 1 ge notes.getTotalPages()} ? 'page-item disabled' : 'page-item'">
+							            <a class="page-link" th:if="${not notes.isLast()}" th:href="@{${'/notes'}(page=${notes.getNumber()+2},size=${notes.getSize()})}">Next</a>
+							            <a class="page-link disabled" th:if="${notes.isLast()}" href="javascript:void(0);">Next</a>
 							        </li>		
-							        <l1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</l1>	        
-								   <li >
-										<a href="./add" class="btn btn-primary" role="button">Add Note</a>
-							        </li>			        
 							    </ul>
 							</div>
-						
-							
 						</td>
+						<td><a href="./add" class="btn btn-primary" role="button">Add Note</a></td>
 					</tr>
 					</thead>
 					<thead class="thead-light">		    

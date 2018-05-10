@@ -76,7 +76,7 @@ public class MainController {
 	    // we are returning the List page so we need to include the list in the model 
     	//model.addAttribute("notes", updateNotes());
         //model.addAttribute("notes", notesInSelectedNotebook());
-        model.addAttribute("notes", pageOfNotesInSelectedNotebook(0));
+        model.addAttribute("notes", pageOfNotesInSelectedNotebook(1));
         model.addAttribute("notebooks", notebooks());
         model.addAttribute("selectedNotebook", selectedNotebook);
 
@@ -88,7 +88,7 @@ public class MainController {
     	// User was adding a note and cancelled
         //model.addAttribute("notes", notes());
         //model.addAttribute("notes", notesInSelectedNotebook());
-        model.addAttribute("notes", pageOfNotesInSelectedNotebook(0));
+        model.addAttribute("notes", pageOfNotesInSelectedNotebook(1));
         model.addAttribute("notebooks", notebooks());
         model.addAttribute("selectedNotebook", selectedNotebook);
 
@@ -130,7 +130,7 @@ public class MainController {
 	   // we are returning the List page so we need to include the list in the model 
     	//model.addAttribute("notes", updateNotes());
         //model.addAttribute("notes", notesInSelectedNotebook());
-        model.addAttribute("notes", pageOfNotesInSelectedNotebook(0));
+        model.addAttribute("notes", pageOfNotesInSelectedNotebook(1));
         model.addAttribute("notebooks", notebooks());
         model.addAttribute("selectedNotebook", selectedNotebook);
 
@@ -147,7 +147,7 @@ public class MainController {
                 .orElseThrow(() -> new ResourceNotFoundException("Notebook", "id", notebookId));
         }
         //model.addAttribute("notes", notesInSelectedNotebook());
-        model.addAttribute("notes", pageOfNotesInSelectedNotebook(0));
+        model.addAttribute("notes", pageOfNotesInSelectedNotebook(1));
         model.addAttribute("notebooks", notebooks());
         model.addAttribute("selectedNotebook", selectedNotebook);
 
@@ -189,7 +189,7 @@ public class MainController {
     	Page<Note> returnVal = null;
         // note - this is handled automatically by Hibernate
     	if(selectedNotebook != null) {
-            PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE, Sort.Direction.DESC, "createdAt");
+            PageRequest pageRequest = PageRequest.of(pageNumber-1, PAGE_SIZE, Sort.Direction.DESC, "createdAt");
 
     		returnVal = (Page<Note>)noteRepository.findByNotebook(selectedNotebook, pageRequest);
     	}
@@ -202,7 +202,7 @@ public class MainController {
     
     public Page<Note> pageOfNotes(Integer pageNumber) {
         PageRequest pageRequest =
-             PageRequest.of(pageNumber, PAGE_SIZE, Sort.Direction.DESC, "createdAt");
+             PageRequest.of(pageNumber-1, PAGE_SIZE, Sort.Direction.DESC, "createdAt");
         return noteRepository.findAll(pageRequest);
     }
 
