@@ -30,6 +30,7 @@ public class MainController {
     private ArrayList<Note> notes;
     private ArrayList<Notebook> notebooks;
     private Notebook selectedNotebook;
+    private String selectedSort = "category-ASC";
     private static final int PAGE_SIZE = 7;
 
     
@@ -51,6 +52,7 @@ public class MainController {
         model.addAttribute("notes", pageOfNotesInSelectedNotebook(page));
         model.addAttribute("notebooks", notebooks());
         model.addAttribute("selectedNotebook", selectedNotebook);
+        model.addAttribute("selectedSort", selectedSort);
 
         return "home";
     }
@@ -79,6 +81,7 @@ public class MainController {
         model.addAttribute("notes", pageOfNotesInSelectedNotebook(1));
         model.addAttribute("notebooks", notebooks());
         model.addAttribute("selectedNotebook", selectedNotebook);
+        model.addAttribute("selectedSort", selectedSort);
 
         return "home";
     }
@@ -91,6 +94,7 @@ public class MainController {
         model.addAttribute("notes", pageOfNotesInSelectedNotebook(1));
         model.addAttribute("notebooks", notebooks());
         model.addAttribute("selectedNotebook", selectedNotebook);
+        model.addAttribute("selectedSort", selectedSort);
 
         return "home";
     }    
@@ -106,6 +110,7 @@ public class MainController {
         model.addAttribute("editnote", note); // editnote
         model.addAttribute("notebooks", notebooks());
         model.addAttribute("selectedNotebook", selectedNotebook);
+        model.addAttribute("selectedSort", selectedSort);
 
         return "home";
     }
@@ -133,23 +138,30 @@ public class MainController {
         model.addAttribute("notes", pageOfNotesInSelectedNotebook(1));
         model.addAttribute("notebooks", notebooks());
         model.addAttribute("selectedNotebook", selectedNotebook);
+        model.addAttribute("selectedSort", selectedSort);
 
         return "home";
     }
     @GetMapping({"/select"})
     public String select(@RequestParam(name="notebookId", required=false) Long notebookId, 
+    		@RequestParam(name="sort", required=false) String sort, 
     		Model model) {
-        if(notebookId == 0) {
+        if((notebookId == null) || (notebookId == 0)) {
         	selectedNotebook = null;
         }
         else {
         	selectedNotebook = notebookRepository.findById(notebookId)
                 .orElseThrow(() -> new ResourceNotFoundException("Notebook", "id", notebookId));
         }
+        
+        if(sort != null) {
+        	selectedSort = sort;
+        }
         //model.addAttribute("notes", notesInSelectedNotebook());
         model.addAttribute("notes", pageOfNotesInSelectedNotebook(1));
         model.addAttribute("notebooks", notebooks());
         model.addAttribute("selectedNotebook", selectedNotebook);
+        model.addAttribute("selectedSort", selectedSort);
 
         return "home";
     }
@@ -187,9 +199,26 @@ public class MainController {
 
     public Page<Note> pageOfNotesInSelectedNotebook(Integer pageNumber) {
     	Page<Note> returnVal = null;
-        // note - this is handled automatically by Hibernate
+    	// Sort
+    	Sort.Direction sortDirection = Sort.Direction.ASC;  // default
+    	String sortColumn = "category";  // default
+    	
+    	if(selectedSort != null) {
+    		String[] values = selectedSort.split("-");
+    		if(values.length == 2) {
+    			sortColumn  = values[0];
+    			String sortDir = values[1];
+    			if(sortDir.equals("ASC")) {
+    				sortDirection = Sort.Direction.ASC; 
+    			}
+    			else {
+    				sortDirection = Sort.Direction.DESC; 
+    			}
+    		}
+    	}
+    	
     	if(selectedNotebook != null) {
-            PageRequest pageRequest = PageRequest.of(pageNumber-1, PAGE_SIZE, Sort.Direction.DESC, "createdAt");
+            PageRequest pageRequest = PageRequest.of(pageNumber-1, PAGE_SIZE, sortDirection, sortColumn);
 
     		returnVal = (Page<Note>)noteRepository.findByNotebook(selectedNotebook, pageRequest);
     	}
@@ -201,8 +230,25 @@ public class MainController {
 
     
     public Page<Note> pageOfNotes(Integer pageNumber) {
+    	Sort.Direction sortDirection = Sort.Direction.ASC;  // default
+    	String sortColumn = "category";  // default
+    	
+    	if(selectedSort != null) {
+    		String[] values = selectedSort.split("-");
+    		if(values.length == 2) {
+    			sortColumn  = values[0];
+    			String sortDir = values[1];
+    			if(sortDir.equals("ASC")) {
+    				sortDirection = Sort.Direction.ASC; 
+    			}
+    			else {
+    				sortDirection = Sort.Direction.DESC; 
+    			}
+    		}
+    	}
+
         PageRequest pageRequest =
-             PageRequest.of(pageNumber-1, PAGE_SIZE, Sort.Direction.DESC, "createdAt");
+             PageRequest.of(pageNumber-1, PAGE_SIZE, sortDirection, sortColumn);
         return noteRepository.findAll(pageRequest);
     }
 

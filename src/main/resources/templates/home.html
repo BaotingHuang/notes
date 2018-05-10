@@ -8,7 +8,23 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<style>
+   .container2 {
+		width:100%;
+   		height:auto;
+		padding:1%;
+	}
+	.iconDetails {
+		margin-left:2%;
+		float:left; 
+		height:20px;	
+		width:20px;	
+	} 
+</style>
+
 </head>
+
 <body> 
 <div class="container">
   	<!-- List Section -->
@@ -52,8 +68,6 @@
 						</div>
 					</tr>
 				</table>
-				        
-		
 				
 			</div>
 	  		<div class="col-9">
@@ -89,16 +103,58 @@
 						<td><a href="./add" class="btn btn-primary" role="button">Add Note</a></td>
 					</tr>
 					</thead>
-					<thead class="thead-light">		    
+					<!-- <thead class="thead-light">		     -->
 						<tr>
 							<!-- <th scope="col">Notebook</th> -->
 							<!-- <th scope="col">Id</th>  -->
-							<th scope="col">Category</th>
-							<th scope="col">Title</th>
+							<th scope="col">
+								<div class="container2">
+									<div th:if="${selectedSort} == 'category-ASC'" >  
+										<a th:href="@{/select(notebookId=${selectedNotebook?.id},sort='category-DESC')}">
+											<img class="iconDetails" th:src="@{/img/sortIcon.png}">
+										</a>
+									</div>
+									<div th:if="${selectedSort} == 'category-DESC'"> 
+										<a th:href="@{/select(notebookId=${selectedNotebook?.id},sort='category-ASC')}">
+											<img class="iconDetails" th:src="@{/img/sortIcon.png}">
+										</a>
+									</div>
+									<div th:if="${selectedSort} != 'category-DESC' and ${selectedSort} != 'category-ASC'"> 
+										<a th:href="@{/select(notebookId=${selectedNotebook?.id},sort='category-ASC')}">
+											<img class="iconDetails" th:src="@{/img/sortIcon.png}">
+										</a>
+									</div>
+									<div style='margin-left:25px;'>Category</div>
+									
+								 </div>
+							</th>
+
+							
+							<th scope="col">
+								<div class="container2">
+									<div th:if="${selectedSort} == 'title-ASC'"> 
+										<a th:href="@{/select(notebookId=${selectedNotebook?.id},sort='title-DESC')}">
+											<img class="iconDetails" th:src="@{/img/sortIcon.png}">
+										</a>
+									</div>
+									<div th:if="${selectedSort} == 'title-DESC'"> 
+										<a th:href="@{/select(notebookId=${selectedNotebook?.id},sort='title-ASC')}">
+											<img class="iconDetails" th:src="@{/img/sortIcon.png}">
+										</a>
+									</div>
+									<div th:if="${selectedSort} != 'title-DESC' and ${selectedSort} != 'title-ASC'"> 
+										<a th:href="@{/select(notebookId=${selectedNotebook?.id},sort='title-ASC')}">
+											<img class="iconDetails" th:src="@{/img/sortIcon.png}">
+										</a>
+									</div>
+	 								<div style='margin-left:25px;'>Title</div>
+	 								
+	 							</div>
+							</th>
 							<th scope="col">Content</th>
 							<th scope="col">Edit</th>
 						</tr>
-					</thead>
+					<!-- </thead> -->
 				      <tr th:each="note : ${notes}">
 				        <!-- <td th:text="${note?.notebook?.title}">notebook</td>  -->
 				        <!-- <td th:text="${note.id}">Onions</td>  -->
