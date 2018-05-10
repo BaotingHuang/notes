@@ -75,4 +75,6 @@ public class Note implements Serializable {
     public void setNotebook(Notebook pNotebook) {
     	notebook = pNotebook;
     }
+    
+
 }

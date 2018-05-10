@@ -14,6 +14,13 @@
   	<!-- List Section -->
     <div th:if="${showAdd} == null and ${showEdit} == null" align=center> 
 		<div class="row">
+			<div class="col-3"></div>
+			<div class="col-9">
+			
+			</div>
+		</div> <!-- Row -->
+    
+		<div class="row">
 	  		<div class="col-3">
 	  		
 	  			<br><br><br><br>
@@ -55,8 +62,34 @@
 			    <table class="table table-striped">
 					<thead class="thead-light">		    
 					<tr>
-						<td colspan=6 align=right>
-							<a href="./add" class="btn btn-primary" role="button">Add Note</a>
+						<td colspan=6>
+							<!-- Pagination  -->
+							<div class="table-pagination">
+							    <ul class="pagination">
+							        <li class="page-item" th:class="${notes.getTotalPages() eq 0} ? 'disabled' : ''"> 
+										<a  class="page-link" th:if="${not notes.isFirst()}" th:href="@{${'/notes'}(page=${notes.getNumber()-1},size=${notes.size})}">Previous</a>
+								        <a  class="page-link" th:if="${notes.isFirst()}" href="javascript:void(0);">Previous</a>
+									</li>
+							        <li class="page-item" th:each="pageNo : ${#numbers.sequence(0, notes.getTotalPages() - 1)}" th:class="${notes.getNumber() eq pageNo}? 'active' : ''">
+							            <a class="page-link" th:if="${notes.getNumber()  eq pageNo}" href="javascript:void(0);">
+							                <span th:text="${pageNo + 1}"></span>
+							            </a>
+							            <a class="page-link"  th:if="${not (notes.getNumber()  eq pageNo)}" th:href="@{${'/notes'}(page=${pageNo},size=${notes.getSize()})}">
+							                <span th:text="${pageNo + 1}"></span>
+							            </a>
+							        </li>
+								   <li class="page-item" th:class="${notes.getNumber() + 1 ge notes.getTotalPages()} ? 'disabled' : ''">
+							            <a class="page-link" th:if="${not notes.isLast()}" th:href="@{${'/notes'}(page=${notes.getNumber()+1},size=${notes.getSize()})}">Next</a>
+							            <a class="page-link" th:if="${notes.isLast()}" href="javascript:void(0);">Next</a>
+							        </li>		
+							        <l1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</l1>	        
+								   <li >
+										<a href="./add" class="btn btn-primary" role="button">Add Note</a>
+							        </li>			        
+							    </ul>
+							</div>
+						
+							
 						</td>
 					</tr>
 					</thead>
