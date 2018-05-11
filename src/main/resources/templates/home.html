@@ -15,11 +15,21 @@
    		height:auto;
 		padding:1%;
 	}
-	.iconDetails {
+	.iconDetailsOrig {
 		margin-left:2%;
 		float:left; 
 		height:20px;	
 		width:20px;	
+	} 
+	.iconDetails {
+		margin-left:1%;
+		float:right; 
+		height:16px;	
+		width:16px;	
+	} 
+	.textDetails {
+		margin-left:1%;
+		float:left; 
 	} 
 </style>
 
@@ -109,7 +119,9 @@
 							<!-- <th scope="col">Id</th>  -->
 							<th scope="col">
 								<div class="container2">
-									<div th:if="${selectedSort} == 'category-ASC'" >  
+									<div class="textDetails" >Category</div>
+								
+									<div style='margin-left:35px;' th:if="${selectedSort} == 'category-ASC'" >  
 										<a th:href="@{/select(notebookId=${selectedNotebook?.id},sort='category-DESC')}">
 											<img class="iconDetails" th:src="@{/img/sortIcon.png}">
 										</a>
@@ -124,7 +136,6 @@
 											<img class="iconDetails" th:src="@{/img/sortIcon.png}">
 										</a>
 									</div>
-									<div style='margin-left:25px;'>Category</div>
 									
 								 </div>
 							</th>
