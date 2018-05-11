@@ -62,7 +62,7 @@ public class MainController {
     	// Display the Add section on the home page
         model.addAttribute("showAdd", true);
         model.addAttribute("notebooks", notebooks());
-        
+        model.addAttribute("selectedNotebook", selectedNotebook);
         return "home";
     }
     

@@ -191,9 +191,12 @@
 		    			<select name="notebook" id="notebooks">
 						     <option th:each="notebook : ${notebooks}"
 						             th:value="${notebook.id}"
+						             th:selected="${notebook.id == selectedNotebook?.id}"
 						             th:text="${notebook.title}">
 						     </option>
 						</select>
+					<!-- th:selected="${notebook.id == selectedNotebook.id}" -->
+						
 			    	</div>
 				    <div th:if="${showEdit} == true"> 
 		    			<select name="notebook" id="notebooks">
