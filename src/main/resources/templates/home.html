@@ -110,16 +110,18 @@
 							    </ul>
 							</div>
 						</td>
+						<!-- Add Button -->
 						<td><a href="./add" class="btn btn-primary" role="button">Add Note</a></td>
 					</tr>
 					</thead>
 					<!-- <thead class="thead-light">		     -->
+					<!-- Notes Table -->
 						<tr>
 							<!-- <th scope="col">Notebook</th> -->
 							<!-- <th scope="col">Id</th>  -->
 							<th scope="col">
 								<div class="container2">
-									<div class="textDetails" >Category</div>
+									<div style='width=100%;' class="textDetails" >Category</div>
 								
 									<div style='margin-left:35px;' th:if="${selectedSort} == 'category-ASC'" >  
 										<a th:href="@{/select(notebookId=${selectedNotebook?.id},sort='category-DESC')}">

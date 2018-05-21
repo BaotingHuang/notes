@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Notes</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- Required meta tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<style></style>
+
+</head>
+
+<body> 
+<div class="container">
+  	<!-- List Section -->
+    <div th:if="${showAdd} == null and ${showEdit} == null" align=center> 
+		<div class="row">
+			<div class="col-3"></div>
+			<div class="col-9">
+			
+			</div>
+		</div> <!-- Row -->
+    
+		<div class="row">
+	  		<div class="col-3">
+	  		
+	  			<br><br><br><br>
+	  			<h4>Sidebar</h4>
+	  			<div th:if="${message}">
+					<p th:text="${message}"/>
+				</div>
+	  			
+  			</div>
+		</div>
+		<div class="col-9">
+			    <h1>Images</h1>
+			
+			    <table class="table table-striped">
+					<thead class="thead-light">		    
+						<tr>
+							<!-- Add Button -->
+							<td><a href="./imageAdmin?action=showadd" class="btn btn-primary" role="button">Add Image</a></td>
+						</tr>
+					</thead>
+					<!-- Image Table -->
+					<tr>
+						<!-- 
+						<th scope="col">Id</th> 
+						<th scope="col">IsActive</th>
+						 -->
+						<th scope="col">Name</th>
+						<th scope="col">Description</th>
+						<th scope="col">File</th>
+						<th scope="col">&nbsp;</th>
+					</tr>
+					<!-- </thead> -->
+				      <tr th:each="image : ${images}">
+				        <!-- 
+				        <td th:text="${image.id}">blah</td> 
+				        <td th:text="${image.isActive}">blah</td> 
+				         -->
+				        <td th:text="${image.imageName}">blah</td> 
+				        <td width="50%" th:text="${image.description}">yes</td>
+				        <!-- <td th:text="${image.imageUrl}">2.41</td>  -->
+				        <td><a href="/" th:href="@{${image.getImageUrl()}}"><img width=80 th:src="${image.imageUrl}"></a></td>
+				        <td><a href="/" th:href="@{/editImage(imageId=${image.id})}">Edit</a></td>
+				      </tr>
+			    </table>
+			</div> <!-- col-9 -->
+		</div> <!-- list section -->		
+
+<!-- Add/Edit Section -->
+    <div th:if="${showAdd} == true or ${showEdit} == true" align=center> 
+	    <br><br><br><br>
+	     <div th:if="${showAdd} == true"> 
+	   		 <h1>Add Image</h1>
+	   		 <!-- 
+	 			<div>
+					<form action="/imageAdmin"  th:object="${image}" method="post" enctype="multipart/form-data"  id="add_form">
+						<table>
+							<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+							<tr><td></td><td><input type="submit"  name="action" value="Upload" /></td></tr>
+						</table>
+					</form>
+				</div>				    
+	   		  -->
+	   		 
+	   		 
+	     </div>
+	     <div th:if="${showEdit} == true"> 
+	   		 <h1>Edit Image</h1>
+	     </div>
+	    
+	    
+	    
+		<form action="/imageAdmin"  th:object="${image}" method="post" enctype="multipart/form-data"  id="add_form">
+		  <fieldset>
+		  <table>
+		  
+		  	<tr>
+		   		 <!-- imageName -->
+		  		<td>Name: </td>
+		    	<td>
+				    <div th:if="${showAdd} == true"> 
+		    			<input type="text" name="imageName" size=50/>
+			    	</div>
+				    <div th:if="${showEdit} == true"> 
+		 			   	<input type="text" name="imageName" th:attr="value = ${editImage.imageName}"   size=50/>
+			    	</div>
+		    	
+		    	</td>
+		    </tr>
+		  	<tr>
+		   		 <!-- isActive -->
+		  		<td>Active: </td>
+		    	<td>
+				    <div th:if="${showAdd} == true"> 
+		    			<input type="radio" name="isActive" value=true checked> Yes<br>
+		    			<input type="radio" name="isActive" value=false > No
+			    	</div>
+				    <div th:if="${showEdit} == true"> 
+		    			<input type="radio" name="isActive" value=true th:checked="${editImage.getIsActive()}"> Yes<br>
+		    			<input type="radio" name="isActive" value=false  th:checked="${editImage.getIsNotActive()}" > No
+			    	</div>
+		    	
+		    	</td>
+		    </tr>
+		    
+		    <!-- imageUrl -->
+		    <tr>
+		  		<td>URL: </td>
+		    	<td>
+				    <div th:if="${showAdd} == true"> 
+				    
+				    	<input type="file" name="file" />			    
+		    			<!-- <input type="text" name="imageUrl" size=50/> -->
+			    	</div>
+				    <div th:if="${showEdit} == true"> 
+		 			   	<input type="text" name="imageUrl" th:attr="value = ${editImage.imageUrl}"   size=50/>
+			    	</div>
+		    	
+		    	</td>
+		    </tr>
+		    
+		    <tr>
+			    <td>Description: </td>
+			    <td>
+				    <div th:if="${showAdd} == true"> 
+				    	<textarea rows=8 cols=50 name="description" form="add_form"/></textarea>
+			    	</div>
+				    <div th:if="${showEdit} == true"> 
+				    	<textarea rows=8 cols=50 name="description"  th:field="${editImage.description}" form="add_form"/></textarea>
+			    	</div>
+			    </td>
+		    </tr>
+		    <tr>
+		    	<td colspan=2 align=center>
+				<div th:if="${showAdd} == true"> 
+		    		<!-- <input type="submit" name="action" value="Add"/> -->
+		    		<input type="submit"  name="action" value="Upload" />
+		    		<input type="submit" name="action" value="Cancel"/> 
+			     </div>
+			     <div th:if="${showEdit} == true"> 
+		    		<input type="hidden" name="id" th:attr="value = ${editImage.id}"/>
+		    		<input type="submit" name="action" value="Save"/>
+		    		<input type="submit" name="action" value="Cancel"/> 
+			     </div>
+		    	</td>
+		    </tr>
+		  </table>
+		 
+		  </fieldset>
+		</form>
+	</div>
+</div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
