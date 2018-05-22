@@ -12,130 +12,201 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<style></style>
-
+	
+	<style>
+		body {
+			background-image: url("http://localhost/img/IMG_8935.jpg");
+			background-color: transparent;
+			background-position: center 7%;
+			background-attachment: fixed;
+		    background-repeat: no-repeat;
+		}
+		.info {
+		    padding-top: 1px;
+		    padding-left: 10px;
+		    padding-right: 5px;
+		}
+	</style>
 </head>
+	<body> 	
+	<!--  Container -->	
+	<div class="container">
+	
+		<!--  Header Row -->
+		<div class="row">
+			<div class="col-md-3" style="float:left;padding-top:20px;">
+						
+			</div>	
+			<div class="col-md-6" style="text-align:center;float:center;">
+				<h1 style="color: red; font-size: 60px;  font-weight: bold;">Capitola</h1>
+				<br>
+			</div>
+			<div class="col-md-3" style="float: right;">
+			</div>	
+		</div>
+		
+		<!-- Main Content Row -->
+		<div class="row" >
+		
+			<!-- Left Column -->
+			<div class="col-md-4" style="float:left;">
+				
+				<!-- News -->
+				<div class="info" style="background-color:white;">
+					<H3>News</H3>
+					<UL>
+						<li><a href="http://localhost/test.html">Capitola voted 'Best Beach Town'</a></li>
+						<li><a href="http://localhost/test.html">Soquel High Scool Graduation</a></li>
+						<li><a href="http://localhost/test.html">Lions club Crab-fest</a></li>
+						<li><a href="http://localhost/test.html">Parking fees raised by $1</a></li>
+						<li><a href="http://localhost/test.html">Homeless shelter to provide food for needy</a></li>
+					</UL>
+					<br>
+				</div>
+				<br>
+				<br>
+				
+				<!--  Ad -->
+				<div align=center>
+					<img alt="New Leaf" src="http://localhost/img/Ad%20-%20New%20Leaf.png" width=100>
+				</div>
+				<br>
+				<br>
 
-	<body> 	    
-		<div id="myCarousel" class="carousel slide" data-ride="carousel">
+				<!-- Weather -->
+				<div align=center>
+					<img alt="New Leaf" src="http://localhost/img/Capitola%20Weather.png" width=150>
+				</div>			
+				
+			</div>
+			
+			<!-- Carousel -->
+			<div class="col-md-4" style="float: center;">
+				<div id="myCarousel" class="carousel slide" data-ride="carousel">				
+					<!-- Indicators -->
+					<ol  class="carousel-indicators">
+			  		  <li th:each="image,rowStat : ${activeImages}"  th:attr="data-slide-to=${rowStat.index}"  data-target="#myCarousel"></li>
+					</ol>
+					  
+					<!-- Wrapper for slides -->
+					<div class="carousel-inner">
+					    <div class="item" th:each="image,row : ${activeImages}" th:classappend="${row.index==0?'active':'' }"  align=center>
+							<img class="d-block img-fluid" th:src="${image.imageUrl}" width="380"/>
+							<div class="carousel-caption">
+			          			<h4 th:text=${image.imageName}>JavaSampleApproach</h4>
+			          		    <p th:text=${image.description}>Cras justo odio</p>
+			        		</div>
+					    </div>
+					</div>
+					
+					<!-- Left and right controls -->					
+					<a class="left carousel-control" href="#myCarousel" data-slide="prev">
+						<span class="glyphicon glyphicon-chevron-left"></span>
+						<span class="sr-only">Previous</span>
+					</a>
+					<a class="right carousel-control" href="#myCarousel" data-slide="next">
+					    <span class="glyphicon glyphicon-chevron-right"></span>
+					    <span class="sr-only">Next</span>
+					</a>
+				</div>
+				<br>
+				<img alt="New Leaf" src="http://localhost/img/AD%20-%20Wholly%20Guacamole.png" width=360 >
+			</div>
+			
+			<!--  Right Column -->
+			<div class="col-md-4" style="float: right; ">
+				<div class="info" style="background-color:white;">
+				
+					<!-- Events -->
+					<H3>Events</H3>
+					<ul>
+						<li><a href="http://localhost/test.html">Art and Wine Festival - June 12-13</a></li>
+						<li><a href="http://localhost/test.html">Hot Rods at the Beach - June 29-30</a></li>
+						<li><a href="http://localhost/test.html">Music on the Beach- starts May 12</a></li>
+						<li><a href="http://localhost/test.html">Fireworks on the Wharf - July 4th</a></li>
+						<li><a href="http://localhost/test.html">Girls on the Run - July 15</a></li>
+						<br>
+						<br>
+					</ul>
+				</div>
+			
+				<br>
+				<!--  Ad -->
+				<div align=center>
+					<img alt="Second Harvest" src="http://localhost/img/AD%20-%20Second%20Harvest.png" width=200>
+				</div>
+			</div>
+			
+		</div>
+		<br>
+		<br>
+		<!-- Directory -->
+			<div class="row">
+				<div class="col-md-2" style="float: left;"></div>
+				<div class="col-md-8" style="float: left; background-color:white;">
+					<H1>Directory</H1>
+				</div>
+				<div class="col-md-2" style="float: right; "></div>
+			</div>
+			<div class="row">
 		
-		<!-- Indicators -->
-		<ol  class="carousel-indicators">
-  		  <li th:each="image,rowStat : ${activeImages}"  th:attr="data-slide-to=${rowStat.index}"  data-target="#myCarousel"></li>
-		</ol>
-		  
-		  <!-- Wrapper for slides -->
-		  <div class="carousel-inner">
-		  
-		    <div class="item active"  align=center>
-		      <img th:src="@{/img/capitola/IMG_8937.jpg}" alt="Sotola"  style="width:75%;">
-		    </div>
-		
-		    <div class="item" align=center>
-		      <img th:src="@{/img/capitola/IMG_8936.jpg}" alt="Margaritaville"  style="width:75%;">
-		    </div>
-		
-		    <div class="item" align=center>
-		      <img th:src="@{/img/capitola/IMG_8933.jpg}" alt="Capitola Bay"  style="width:75%;">
-		    </div>
-		    
-		    <div class="item" align=center>
-		      <img th:src="@{/img/capitola/IMG_8938.jpg}" alt="Lagoon"  style="width:75%;">
-		    </div>
-		    
-		    <div class="item" align=center>
-		      <img th:src="@{/img/capitola/IMG_8939.jpg}" alt="Capitola Wharf"  style="width:75%;">
-		    </div>
-		    
-		    <div class="item" align=center>
-		      <img th:src="@{/img/capitola/IMG_8943.jpg}" alt="Creek"  style="width:75%;">
-		    </div>
-		    
-		    <div class="item" align=center>
-		      <img th:src="@{/img/capitola/IMG_8944.jpg}" alt="Armida Winery"  style="width:75%;">
-		    </div>
-		    
-		    <div class="item" align=center>
-		      <img th:src="@{/img/capitola/IMG_8946.jpg}" alt="Mercantile"  style="width:75%;">
-		    </div>
-		    
-		    <div class="item" align=center>
-		      <img th:src="@{/img/capitola/IMG_8947.jpg}" alt="Dolphin Statue"  style="width:75%;">
-		    </div>
-		    
-		    <div class="item" align=center>
-		      <img th:src="@{/img/capitola/IMG_8949.jpg}" alt="Mr. Toots"  style="width:75%;">
-		    </div>
-		    
-		    <div class="item" align=center>
-		      <img th:src="@{/img/capitola/IMG_8950.jpg}" alt="Paradise Beach"  style="width:75%;">
-		    </div>
-		    
-		    <div class="item" align=center>
-		      <img th:src="@{/img/capitola/IMG_8952.jpg}" alt="Pizza My Heart"  style="width:75%;">
-		    </div>
-		    
-		    <div class="item" align=center>
-		      <img th:src="@{/img/capitola/IMG_8954.jpg}" alt="Zelda's"  style="width:75%;">
-		    </div>
-		    
-		    <div class="item" align=center>
-		      <img th:src="@{/img/capitola/IMG_8955.jpg}" alt="Sister Houses"  style="width:75%;">
-		    </div>
-		    
-		    <div class="item" align=center>
-		      <img th:src="@{/img/capitola/IMG_8958.jpg}" alt="Zelda's Deck"  style="width:75%;">
-		    </div>
-		    
-		    <div class="item" align=center>
-		      <img th:src="@{/img/capitola/IMG_8963.jpg}" alt="Beach"  style="width:75%;">
-		    </div>
-		    
-		    <div class="item" align=center>
-		      <img th:src="@{/img/capitola/IMG_8966.jpg}" alt="Shops Sign"  style="width:75%;">
-		    </div>
-		    
-		  </div>
-		
-		  <!-- Left and right controls -->
-		  <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-		    <span class="glyphicon glyphicon-chevron-left"></span>
-		    <span class="sr-only">Previous</span>
-		  </a>
-		  <a class="right carousel-control" href="#myCarousel" data-slide="next">
-		    <span class="glyphicon glyphicon-chevron-right"></span>
-		    <span class="sr-only">Next</span>
-		  </a>
-		</div>	    
-	    
-	    
-   		 <table class="table table-striped">
-			<!-- Image Table -->
-			<tr>
-				<!-- 
-				<th scope="col">Id</th> 
-				<th scope="col">IsActive</th>
-				 -->
-				<th scope="col">Name</th>
-				<th scope="col">Description</th>
-				<th scope="col">File</th>
-				<th scope="col">&nbsp;</th>
-			</tr>
-			<!-- </thead> -->
-		      <tr th:each="image : ${activeImages}">
-		        <!-- 
-		        <td th:text="${image.id}">blah</td> 
-		        <td th:text="${image.isActive}">blah</td> 
-		         -->
-		        <td th:text="${image.imageName}">blah</td> 
-		        <td width="50%" th:text="${image.description}">yes</td>
-		        <!-- <td th:text="${image.imageUrl}">2.41</td>  -->
-		        <td><a href="/" th:href="@{${image.getImageUrl()}}"><img width=80 th:src="${image.imageUrl}"></a></td>
-		        <td><a href="/" th:href="@{/editImage(imageId=${image.id})}">Edit</a></td>
-		      </tr>
-	    </table>
-	    
-	    
+				<div class="col-md-2" style="float: left;"></div>
+				<div class="col-md-2" style="float: left; background-color:white;">
+					<ul>
+						<li><a href="http://localhost/test.html">Doctors</a></li>
+						<li><a href="http://localhost/test.html">Hospitals</a></li>
+						<li><a href="http://localhost/test.html">Emergency Care</a></li>
+						<li><a href="http://localhost/test.html">Services</a></li>
+						<li><a href="http://localhost/test.html">Plumbing</a></li>
+						<li><a href="http://localhost/test.html">Electrical</a></li>
+						<li><a href="http://localhost/test.html">Carpentry</a></li>
+						<li><a href="http://localhost/test.html">Contractors</a></li>
+					</ul>
+				
+				</div>
+				<div class="col-md-2" style="float: center; background-color:white;">
+					<ul>
+						<li><a href="http://localhost/test.html">Automotive</a></li>
+						<li><a href="http://localhost/test.html">Banks</a></li>
+						<li><a href="http://localhost/test.html">Clothing</a></li>
+						<li><a href="http://localhost/test.html">Hotels</a></li>
+						<li><a href="http://localhost/test.html">Grocery</a></li>
+						<li><a href="http://localhost/test.html">Real Estate</a></li>
+						<li><a href="http://localhost/test.html">Restaurants</a></li>
+						<li><a href="http://localhost/test.html">Childcare</a></li>
+					</ul>
+				</div>
+				<div class="col-md-2" style="float: left; background-color:white;">
+					<ul>
+						<li><a href="http://localhost/test.html">Government</a></li>
+						<li><a href="http://localhost/test.html">City Hall</a></li>
+						<li><a href="http://localhost/test.html">Chamber of Commerce</a></li>
+						<li><a href="http://localhost/test.html">Police</a></li>
+						<li><a href="http://localhost/test.html">Fire</a></li>
+						<li><a href="http://localhost/test.html">Schools</a></li>
+						<li><a href="http://localhost/test.html">Library</a></li>
+					</ul>
+				</div>
+				<div class="col-md-2" style="float: left; background-color:white;">
+					<ul>
+						&nbsp;<br>
+						&nbsp;<br>
+						&nbsp;<br>
+						&nbsp;<br>
+						&nbsp;<br>
+						&nbsp;<br>
+						&nbsp;<br>
+						&nbsp;<br>
+					</ul>
+				
+				</div>
+				
+				<div class="col-md-2" style="float: left;">
+				</div>
+				
+			</div>
+	</div>
+					    	    
 	    
 		<!-- Optional JavaScript -->
 	    <!-- jQuery first, then Popper.js, then Bootstrap JS -->

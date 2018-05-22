@@ -49,21 +49,21 @@
 					<tr>
 						<!-- 
 						<th scope="col">Id</th> 
-						<th scope="col">IsActive</th>
 						 -->
 						<th scope="col">Name</th>
 						<th scope="col">Description</th>
-						<th scope="col">File</th>
+						<th scope="col">IsActive</th>
+						<th scope="col">&nbsp;</th>
 						<th scope="col">&nbsp;</th>
 					</tr>
 					<!-- </thead> -->
 				      <tr th:each="image : ${images}">
 				        <!-- 
 				        <td th:text="${image.id}">blah</td> 
-				        <td th:text="${image.isActive}">blah</td> 
 				         -->
 				        <td th:text="${image.imageName}">blah</td> 
-				        <td width="50%" th:text="${image.description}">yes</td>
+				        <td width="40%" th:text="${image.description}">yes</td>
+				        <td th:text="${image.isActive}">blah</td> 
 				        <!-- <td th:text="${image.imageUrl}">2.41</td>  -->
 				        <td><a href="/" th:href="@{${image.getImageUrl()}}"><img width=80 th:src="${image.imageUrl}"></a></td>
 				        <td><a href="/" th:href="@{/editImage(imageId=${image.id})}">Edit</a></td>
